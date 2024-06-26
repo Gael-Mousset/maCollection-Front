@@ -25,3 +25,29 @@
 .game-card button:hover {
   background-color: #21a1f1;
 }
+
+.game-card .delete-button {
+  background-color: #ff4c4c;
+}
+
+.game-card .delete-button:hover {
+  background-color: #ff1c1c;
+}
+
+.game-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.collection-filter {
+  margin: 20px 0;
+  text-align: center;
+}
+
+.collection-filter select {
+  padding: 10px;
+  font-size: 16px;
+  margin-bottom: 10px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+}
