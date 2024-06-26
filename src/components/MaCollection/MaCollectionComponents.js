@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { PlatformDetails, getPlatformById } from "../../enum/platforms";
 import "./MaCollectionComponents.css";
+import { toast } from "react-toastify";
 
 const MyCollection = () => {
   const [collection, setCollection] = useState([]);
@@ -22,6 +23,7 @@ const MyCollection = () => {
           "Erreur lors de la récupération de la collection :",
           error
         );
+        toast.error("Erreur lors de la récupération de la collection");
       }
     };
 
@@ -32,8 +34,10 @@ const MyCollection = () => {
     try {
       await axios.delete(`http://localhost:5000/api/games/${id}`);
       setCollection(collection.filter((game) => game._id !== id));
+      toast.success("Jeu supprimé de la collection avec succès");
     } catch (error) {
       console.error("Erreur lors de la suppression du jeu :", error);
+      toast.error("Erreur lors de la suppression du jeu");
     }
   };
 

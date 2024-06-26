@@ -4,7 +4,8 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import NavBar from "./components/NavBar/NavBarComponents";
 import SearchComponent from "./components/Search/SearchComponent";
 import MyCollection from "./components/MaCollection/MaCollectionComponents";
-
+import { ToastContainer } from "react-toastify";
+import "react-toastify/ReactToastify.css";
 const App = () => {
   const [collection, setCollection] = useState([]);
   const addToCollection = (game) => {
@@ -13,6 +14,7 @@ const App = () => {
   return (
     <Router>
       <div className="App">
+        <ToastContainer theme="colored" />
         <header className="App-header">
           <NavBar />
           <Routes>

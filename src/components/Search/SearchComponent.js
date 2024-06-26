@@ -2,11 +2,12 @@ import React, { useState } from "react";
 import axios from "axios";
 import "./SearchComponent.css";
 import { PlatformDetails, getPlatformById } from "../../enum/platforms";
+import { toast } from "react-toastify";
 
 const SearchComponent = ({ addToCollection }) => {
   const [query, setQuery] = useState("");
   const [games, setGames] = useState([]);
-  const [img, setImg] = useState([]);
+
   const apiKey =
     "e2632452c70b87623a7abd8f06273b80f723db6158242bebb380284efa6a251c"; // Remplacez par votre clé API TheGamesDB
 
@@ -19,12 +20,10 @@ const SearchComponent = ({ addToCollection }) => {
           name: query,
         },
       });
-      console.log(response.data.data.games);
-      console.log(response.data.data);
       setGames(response.data.data.games);
-      setImg(response.data.data);
     } catch (error) {
       console.error("Erreur lors de la recherche des jeux :", error);
+      toast.error("Erreur lors de la recherche des jeux");
     }
   };
 
@@ -35,8 +34,10 @@ const SearchComponent = ({ addToCollection }) => {
         game
       );
       addToCollection(response.data);
+      toast.success("Jeu ajouté à la collection avec succès");
     } catch (error) {
       console.error("Erreur lors de l'ajout du jeu à la collection :", error);
+      toast.error("Erreur lors de l'ajout du jeu à la collection");
     }
   };
 
