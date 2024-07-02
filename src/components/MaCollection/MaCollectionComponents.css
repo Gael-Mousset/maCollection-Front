@@ -1,0 +1,53 @@
+.game-card {
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 16px;
+  margin: 16px;
+  text-align: center;
+  max-width: 350px;
+}
+
+.game-card img {
+  width: 100%;
+  height: auto;
+}
+
+.game-card button {
+  margin-top: 8px;
+  padding: 10px 20px;
+  font-size: 16px;
+  background-color: #61dafb;
+  border: none;
+  color: white;
+  cursor: pointer;
+}
+
+.game-card button:hover {
+  background-color: #21a1f1;
+}
+
+.game-card .delete-button {
+  background-color: #ff4c4c;
+}
+
+.game-card .delete-button:hover {
+  background-color: #ff1c1c;
+}
+
+.game-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.collection-filter {
+  margin: 20px 0;
+  text-align: center;
+}
+
+.collection-filter select {
+  padding: 10px;
+  font-size: 16px;
+  margin-bottom: 10px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+}

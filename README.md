@@ -1,3 +1,8 @@
+# Lien GPT
+
+La base du projet en [GPT](https://chatgpt.com/c/1fc1e8bf-89cc-4cfd-8cb9-c58b8409a6b8).
+Corection [route](https://chatgpt.com/c/ba64d26e-7179-40c8-951b-280523aa0c40)
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
