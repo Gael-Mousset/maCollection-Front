@@ -6,6 +6,7 @@ import { toast } from "react-toastify";
 
 const MyCollection = () => {
   const [collection, setCollection] = useState([]);
+  const [duplicates, setDuplicates] = useState([]);
   const [platform, setPlatform] = useState("");
 
   useEffect(() => {
@@ -30,14 +31,45 @@ const MyCollection = () => {
     fetchCollection();
   }, [platform]);
 
+  const fetchDuplicates = async () => {
+    try {
+      const response = await axios.get(
+        "http://localhost:5000/api/games/duplicates"
+      );
+      setDuplicates(response.data);
+    } catch (error) {
+      console.error(
+        "Erreur lors de la récupération des jeux en grande quantité :",
+        error
+      );
+      toast.error("Erreur lors de la récupération des jeux en grande quantité");
+    }
+  };
+
   const removeFromCollection = async (id) => {
     try {
-      await axios.delete(`http://localhost:5000/api/games/${id}`);
-      setCollection(collection.filter((game) => game._id !== id));
-      toast.success("Jeu supprimé de la collection avec succès");
+      const response = await axios.delete(
+        `http://localhost:5000/api/games/${id}`
+      );
+      if (response.data.game) {
+        setCollection(
+          collection.map((game) =>
+            game._id === id ? { ...game, quantity: game.quantity - 1 } : game
+          )
+        );
+        toast.success("Quantité décrémentée avec succès");
+      } else {
+        setCollection(collection.filter((game) => game._id !== id));
+        toast.success("Jeu supprimé de la collection avec succès");
+      }
     } catch (error) {
-      console.error("Erreur lors de la suppression du jeu :", error);
-      toast.error("Erreur lors de la suppression du jeu");
+      console.error(
+        "Erreur lors de la suppression ou de la décrémentation du jeu :",
+        error
+      );
+      toast.error(
+        "Erreur lors de la suppression ou de la décrémentation du jeu"
+      );
     }
   };
 
@@ -53,6 +85,7 @@ const MyCollection = () => {
             </option>
           ))}
         </select>
+        <button onClick={fetchDuplicates}>Afficher les Doublons</button>{" "}
       </div>
       {collection.length === 0 ? (
         <p>Aucun jeu dans la collection.</p>
@@ -70,6 +103,7 @@ const MyCollection = () => {
                   alt={game.game_title}
                 />
                 {platformInfo && <p> {platformInfo.name}</p>}
+                <p>Quantité: {game.quantity}</p>
                 <button
                   className="delete-button"
                   onClick={() => removeFromCollection(game._id)}
@@ -79,6 +113,32 @@ const MyCollection = () => {
               </div>
             );
           })}
+        </div>
+      )}
+      {duplicates.length > 0 && (
+        <div>
+          <h2>Jeux en Grande Quantité</h2>
+          <div className="game-grid">
+            {duplicates.map((game) => {
+              const platformInfo = getPlatformById(game.platform);
+              return (
+                <div key={game._id} className="game-card">
+                  <h2>{game.game_title}</h2>
+                  <p>{game.release_date}</p>
+                  <img
+                    src={`https://cdn.thegamesdb.net/images/thumb/boxart/front/${game.id}-1.jpg`}
+                    alt={game.game_title}
+                  />
+                  {platformInfo ? (
+                    <p>Plateforme: {platformInfo.name}</p>
+                  ) : (
+                    <p>Plateforme inconnue</p>
+                  )}
+                  <p>Quantité: {game.quantity}</p>
+                </div>
+              );
+            })}
+          </div>
         </div>
       )}
     </div>
