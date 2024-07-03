@@ -14,7 +14,7 @@ const SearchComponent = ({ addToCollection }) => {
   const searchGames = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.get(`/v1/Games/ByGameName`, {
+      const response = await axios.get(`/api/v1/Games/ByGameName`, {
         params: {
           apikey: apiKey,
           name: query,
