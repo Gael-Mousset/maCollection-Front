@@ -11,7 +11,7 @@ const SearchComponent = ({ addToCollection }) => {
   const searchGames = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.get(`http://localhost:5000/proxy`, {
+      const response = await axios.get(`/proxy`, {
         params: {
           name: query,
         },
