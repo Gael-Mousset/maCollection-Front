@@ -8,15 +8,11 @@ const SearchComponent = ({ addToCollection }) => {
   const [query, setQuery] = useState("");
   const [games, setGames] = useState([]);
 
-  const apiKey =
-    "e2632452c70b87623a7abd8f06273b80f723db6158242bebb380284efa6a251c"; // Remplacez par votre clé API TheGamesDB
-
   const searchGames = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.get(`/v1/Games/ByGameName`, {
+      const response = await axios.get(`http://localhost:5000/proxy`, {
         params: {
-          apikey: apiKey,
           name: query,
         },
       });
