@@ -13,7 +13,7 @@ const MyCollection = () => {
   useEffect(() => {
     const fetchCollection = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/api/games", {
+        const response = await axios.get("/api/games", {
           params: { platform },
         });
         const sortedGames = response.data.sort((a, b) =>
@@ -34,9 +34,7 @@ const MyCollection = () => {
 
   const fetchDuplicates = async () => {
     try {
-      const response = await axios.get(
-        "http://localhost:5000/api/games/duplicates"
-      );
+      const response = await axios.get("/api/games/duplicates");
       setDuplicates(response.data);
     } catch (error) {
       console.error(
@@ -49,9 +47,7 @@ const MyCollection = () => {
 
   const removeFromCollection = async (id) => {
     try {
-      const response = await axios.delete(
-        `http://localhost:5000/api/games/${id}`
-      );
+      const response = await axios.delete(`/api/games/${id}`);
       if (response.data.game) {
         setCollection(
           collection.map((game) =>
