@@ -25,10 +25,7 @@ const SearchComponent = ({ addToCollection }) => {
 
   const addToDatabase = async (game) => {
     try {
-      const response = await axios.post(
-        "http://localhost:5000/api/games",
-        game
-      );
+      const response = await axios.post("/api/games", game);
       addToCollection(response.data);
       toast.success("Jeu ajouté à la collection avec succès");
     } catch (error) {
