@@ -7,17 +7,15 @@ import { toast } from "react-toastify";
 const SearchComponent = ({ addToCollection }) => {
   const [query, setQuery] = useState("");
   const [games, setGames] = useState([]);
-
-  const apiKey =
-    "e2632452c70b87623a7abd8f06273b80f723db6158242bebb380284efa6a251c"; // Remplacez par votre clé API TheGamesDB
+  const [platform, setPlatform] = useState(""); // Nouvel état pour le filtre de plateforme
 
   const searchGames = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.get(`/v1/Games/ByGameName`, {
+      const response = await axios.get(`http://localhost:5000/proxy`, {
         params: {
-          apikey: apiKey,
           name: query,
+          platform: platform,
         },
       });
       setGames(response.data.data.games);
@@ -44,13 +42,21 @@ const SearchComponent = ({ addToCollection }) => {
   return (
     <div>
       <h1>Recherche de Jeux Vidéo</h1>
-      <form onSubmit={searchGames}>
+      <form onSubmit={searchGames} className="search-filter">
         <input
           type="text"
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           placeholder="Recherchez un jeu vidéo"
         />
+        <select value={platform} onChange={(e) => setPlatform(e.target.value)}>
+          <option value="">Toutes les plateformes</option>
+          {Object.values(PlatformDetails).map((platform) => (
+            <option key={platform.id} value={platform.id}>
+              {platform.name}
+            </option>
+          ))}
+        </select>
         <button type="submit">Rechercher</button>
       </form>
       <div className="game-grid">

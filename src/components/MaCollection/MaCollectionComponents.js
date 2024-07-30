@@ -7,6 +7,7 @@ import { toast } from "react-toastify";
 const MyCollection = () => {
   const [collection, setCollection] = useState([]);
   const [duplicates, setDuplicates] = useState([]);
+  const [query, setQuery] = useState("");
   const [platform, setPlatform] = useState("");
 
   useEffect(() => {
@@ -77,6 +78,12 @@ const MyCollection = () => {
     <div>
       <h1>Ma Collection de Jeux</h1>
       <div className="collection-filter">
+        <input
+          type="text"
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+          placeholder="Recherchez un jeu vidéo"
+        />
         <select value={platform} onChange={(e) => setPlatform(e.target.value)}>
           <option value="">Toutes les plateformes</option>
           {Object.values(PlatformDetails).map((platform) => (
@@ -89,30 +96,35 @@ const MyCollection = () => {
       </div>
       {collection.length === 0 ? (
         <p>Aucun jeu dans la collection.</p>
+      ) : collection.filter((f) => f.game_title.includes(query)).length ===
+        0 ? (
+        <p>le jeu chercher n'est pas dans la collection</p>
       ) : (
-        <div className="game-grid">
-          {collection.map((game) => {
-            const platformInfo = getPlatformById(game.platform);
-            console.log();
-            return (
-              <div key={game._id} className="game-card">
-                <h2>{game.game_title}</h2>
-                <p>{game.release_date}</p>
-                <img
-                  src={`https://cdn.thegamesdb.net/images/thumb/boxart/front/${game.id}-1.jpg`}
-                  alt={game.game_title}
-                />
-                {platformInfo && <p> {platformInfo.name}</p>}
-                <p>Quantité: {game.quantity}</p>
-                <button
-                  className="delete-button"
-                  onClick={() => removeFromCollection(game._id)}
-                >
-                  Supprimer
-                </button>
-              </div>
-            );
-          })}
+        <div className="game-grid-collection">
+          {collection
+            .filter((f) => f.game_title.includes(query))
+            .map((game) => {
+              const platformInfo = getPlatformById(game.platform);
+              console.log();
+              return (
+                <div key={game._id} className="game-card-collection">
+                  <h2>{game.game_title}</h2>
+                  <p>{game.release_date}</p>
+                  <img
+                    src={`https://cdn.thegamesdb.net/images/thumb/boxart/front/${game.id}-1.jpg`}
+                    alt={game.game_title}
+                  />
+                  {platformInfo && <p> {platformInfo.name}</p>}
+                  <p>Quantité: {game.quantity}</p>
+                  <button
+                    className="delete-button-collection"
+                    onClick={() => removeFromCollection(game._id)}
+                  >
+                    Supprimer
+                  </button>
+                </div>
+              );
+            })}
         </div>
       )}
       {duplicates.length > 0 && (
